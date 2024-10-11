@@ -1,0 +1,63 @@
+{% extends 'base.html' %} 
+{% block title %}Rune Optimize{% endblock %} 
+{% block content %}
+
+<div class="container my-4">
+  <h2 class="mb-4">Rune Optimization</h2>
+
+  <!-- Rune Selection Form -->
+  <form method="post" id="rune-form">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="rune-set">Select Rune Set:</label>
+      <select id="rune-set" name="rune_set" class="form-control" required>
+        <option value="">-- Choose a Rune Set --</option>
+        {% for set_id, set_name in rune_sets.items %}
+        <option value="{{ set_id }}">{{ set_name }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Select Runes (Up to 6, one per slot):</label>
+      <div id="rune-selection" class="row">
+        <!-- Rune options will be populated via JavaScript -->
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mb-4">Submit Selection</button>
+  </form>
+  <div class="card">
+    <div class="card-header">Chat with Rune Optimizer</div>
+    <div class="card-body">
+      <div
+        id="chatbox"
+        style="
+          height: 300px;
+          overflow-y: scroll;
+          border: 1px solid #ccc;
+          padding: 10px;
+        "
+      >
+        <!-- Chat messages will appear here -->
+      </div>
+      <form method="post" id="chat-form">
+        {% csrf_token %}
+        <div class="input-group mt-3">
+          <input
+            type="text"
+            name="message"
+            id="message-input"
+            class="form-control"
+            placeholder="Type your message..."
+            required
+          />
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-success">Send</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

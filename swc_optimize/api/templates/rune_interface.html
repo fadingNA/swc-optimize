@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Rune Interface{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h2 class="mb-4">Rune Interface</h2>
+
+    <!-- Upload Form -->
+    <form method="post" enctype="multipart/form-data" class="mb-5">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="jsonFile">Select JSON file to upload:</label>
+            <input type="file" name="json_file" id="jsonFile" class="form-control-file">
+        </div>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    <!-- Display Runes -->
+    <h3>Available Runes</h3>
+    {% if runes %}
+    <div style="max-height: 70vh; overflow: auto;">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark" style="position: sticky; top: 0; z-index: 2;">
+                <tr>
+                    <th>Rune ID</th>
+                    <th>Slot</th>
+                    <th>Set</th>
+                    <th>Primary Effect</th>
+                    <th>Secondary Effects</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rune in runes %}
+                    <tr>
+                        <td>{{ rune.rune_id }}</td>
+                        <td>{{ rune.slot_no }}</td>
+                        <td>{{ rune.get_set_name }}</td>
+                        <td>{{ rune.get_primary_effect }}</td>
+                        <td>
+                            {% for eff in rune.get_secondary_effects %}
+                                {{ eff }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No runes available.
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
